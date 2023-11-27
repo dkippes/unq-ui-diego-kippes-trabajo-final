@@ -1,0 +1,49 @@
+/* JuegoVsComputadora.css */
+
+.tablero {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.filas-numero {
+    display: flex;
+    flex-direction: row;
+}
+
+.numero-celda {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #000000;
+    color: white;
+}
+
+.fila-letra {
+    display: flex;
+    flex-direction: row;
+}
+
+.letra-celda {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #000000;
+    color: white;
+}
+
+.celda {
+    flex: 1;
+    cursor: pointer;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.celda:hover {
+    background-color: #f5f5f5;
+}
+
+/* En tu archivo JuegoVsComputadora.css */
+

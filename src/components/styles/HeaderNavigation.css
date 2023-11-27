@@ -1,0 +1,9 @@
+.linkToHome {
+    text-decoration: none;
+    cursor: pointer;
+    transition: text-decoration 0.3s;  /* Efecto de transición al hover */
+}
+
+.linkToHome:hover {
+    text-decoration: underline;
+}
