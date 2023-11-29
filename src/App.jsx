@@ -1,9 +1,9 @@
-import {useState} from 'react'
-import {BrowserRouter, Route, Router, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ToastContainer} from "react-toastify";
 import JuegoVsJugador from "./view/JuegoVsJugador/JuegoVsJugador.jsx";
 import JuegoVsComputadora from "./view/JuegoVsComputadora/JuegoVsComputadora.jsx";
 import HomePage from "./view/HomePage/HomePage.jsx";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     return (

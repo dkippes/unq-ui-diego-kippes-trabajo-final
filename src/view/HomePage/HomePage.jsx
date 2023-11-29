@@ -1,9 +1,15 @@
-import { useState } from 'react'
-import {Link} from "react-router-dom";
+import {useEffect, useState} from 'react'
+import {Link, useLocation, useParams} from "react-router-dom";
 import './styles/HomePage.css';
+import {getVictorias} from "../../game/Victorias.js";
+import ToastUtil from "../../utils/ToastUtil.js";
 
 const HomePage = () => {
-    const [victorias, setVictorias] = useState(0);
+    const [victorias, setVictorias] = useState(getVictorias());
+
+    useEffect(() => {
+        setVictorias(getVictorias());
+    }, []);
 
     return (
         <div className="pagina-principal-container">
