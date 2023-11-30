@@ -5,18 +5,20 @@ import {Juego} from "../../game/Juego.js";
 import {useNavigate} from "react-router-dom";
 import {incrementarVictorias} from "../../game/Victorias.js";
 import ToastUtil from "../../utils/ToastUtil.js";
+import BarcoForm from "../../components/BarcoForm.jsx";
+import BotonListo from "../../components/BotonList.jsx";
+import {letras, numeros, letrasBarco} from "../../utils/constantes.js";
+import {determinarColorCelda, determinarColorCeldaOculta, ocultarTablero} from "../../utils/utils.js";
 
 const JuegoVsComputadora = () => {
     const juego = useMemo(() => new Juego(), []);
-
-    const letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-    const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     const navigate = useNavigate();
 
     const [tableroJugador, setTableroJugador] = useState(juego.jugador1.tablero);
     const [tableroComputadora, setTableroComputadora] = useState(juego.jugador2.tablero);
     const [inicioPartida, setInicioPartida] = useState(true);
+    const [juegoEnCurso, setJuegoEnCurso] = useState(false);
 
     const [filaPortaviones, setFilaPortaviones] = useState('A');
     const [columnaPortaviones, setColumnaPortaviones] = useState('1');
@@ -57,15 +59,13 @@ const JuegoVsComputadora = () => {
     const handlePortaviones = (e) => {
         e.preventDefault();
 
-        // Verifica si la posición está disponible antes de colocar el barco
-        if (juego.jugador1.esPosicionDisponible('portaaviones', filaPortaviones, columnaPortaviones, orientacionPortaviones)) {
-            juego.jugador1.colocarBarco('portaaviones', filaPortaviones, columnaPortaviones, orientacionPortaviones);
+        if (juego.jugador1.esPosicionDisponible(letrasBarco[0], filaPortaviones, columnaPortaviones, orientacionPortaviones)) {
+            juego.jugador1.colocarBarco(letrasBarco[0], filaPortaviones, columnaPortaviones, orientacionPortaviones);
             setTableroJugador(juego.jugador1.tablero);
             setInicioPartida(!juego.jugador1.barcosEnPosicion())
             setPortavionesColocado(true);
             ToastUtil.toastSuccess('Portaaviones colocado');
         } else {
-            // Muestra un mensaje de error o toma otras medidas según sea necesario
             ToastUtil.toastError('No se puede colocar el portaaviones en esa posición, ocupa 5 celdas');
         }
     };
@@ -73,15 +73,13 @@ const JuegoVsComputadora = () => {
     const handleCrucero = (e) => {
         e.preventDefault();
 
-        // Verifica si la posición está disponible antes de colocar el barco
-        if (juego.jugador1.esPosicionDisponible('crucero', filaCrucero, columnaCrucero, orientacionCrucero)) {
-            juego.jugador1.colocarBarco('crucero', filaCrucero, columnaCrucero, orientacionCrucero);
+        if (juego.jugador1.esPosicionDisponible(letrasBarco[1], filaCrucero, columnaCrucero, orientacionCrucero)) {
+            juego.jugador1.colocarBarco(letrasBarco[1], filaCrucero, columnaCrucero, orientacionCrucero);
             setTableroJugador(juego.jugador1.tablero);
             setInicioPartida(!juego.jugador1.barcosEnPosicion())
             setCruceroColocado(true);
             ToastUtil.toastSuccess('Crucero colocado');
         } else {
-            // Muestra un mensaje de error o toma otras medidas según sea necesario
             ToastUtil.toastError('No se puede colocar el crucero en esa posición, ocupa 4 celdas');
         }
     };
@@ -89,15 +87,13 @@ const JuegoVsComputadora = () => {
     const handleSubmarino = (e) => {
         e.preventDefault();
 
-        // Verifica si la posición está disponible antes de colocar el barco
-        if (juego.jugador1.esPosicionDisponible('submarino', filaSubmarino, columnaSubmarino, orientacionSubmarino)) {
-            juego.jugador1.colocarBarco('submarino', filaSubmarino, columnaSubmarino, orientacionSubmarino);
+        if (juego.jugador1.esPosicionDisponible(letrasBarco[2], filaSubmarino, columnaSubmarino, orientacionSubmarino)) {
+            juego.jugador1.colocarBarco(letrasBarco[2], filaSubmarino, columnaSubmarino, orientacionSubmarino);
             setTableroJugador(juego.jugador1.tablero);
             setInicioPartida(!juego.jugador1.barcosEnPosicion())
             setSubmarinoColocado(true);
             ToastUtil.toastSuccess('Submarino colocado');
         } else {
-            // Muestra un mensaje de error o toma otras medidas según sea necesario
             ToastUtil.toastError('No se puede colocar el submarino en esa posición, ocupa 3 celdas');
         }
     };
@@ -105,15 +101,13 @@ const JuegoVsComputadora = () => {
     const handleLancha = (e) => {
         e.preventDefault();
 
-        // Verifica si la posición está disponible antes de colocar el barco
-        if (juego.jugador1.esPosicionDisponible('lancha', filaLancha, columnaLancha, orientacionLancha)) {
-            juego.jugador1.colocarBarco('lancha', filaLancha, columnaLancha, orientacionLancha);
+        if (juego.jugador1.esPosicionDisponible(letrasBarco[3], filaLancha, columnaLancha, orientacionLancha)) {
+            juego.jugador1.colocarBarco(letrasBarco[3], filaLancha, columnaLancha, orientacionLancha);
             setTableroJugador(juego.jugador1.tablero);
             setInicioPartida(!juego.jugador1.barcosEnPosicion())
             setLanchaColocado(true);
             ToastUtil.toastSuccess('Lancha colocado');
         } else {
-            // Muestra un mensaje de error o toma otras medidas según sea necesario
             ToastUtil.toastError('No se puede colocar la lancha en esa posición, ocupa 2 celdas');
         }
     };
@@ -121,37 +115,24 @@ const JuegoVsComputadora = () => {
     const handleIniciarPartida = (e) => {
         e.preventDefault();
         juego.jugarContraComputadora();
-        let tableroOculto = ocultarTablero(juego.jugador2.tablero);
-        console.log(tableroOculto)
-        console.log(juego.jugador2.tablero)
-        setTableroComputadora(tableroOculto);
+        setTableroComputadora(ocultarTablero(juego.jugador2.tablero));
         setInicioPartida(true);
+        setJuegoEnCurso(true)
         ToastUtil.toastSuccess('Iniciando partida');
     };
 
-    const ocultarTablero = (tablero) => {
-        const tableroOculto = tablero.map((fila) => fila.slice());
-
-        for (let i = 0; i < tableroOculto.length; i++) {
-            for (let j = 0; j < tableroOculto[i].length; j++) {
-                if (['P', 'C', 'S', 'L'].includes(tableroOculto[i][j])) {
-                    // Ocultar letras P, C, S, L poniéndolas en null
-                    tableroOculto[i][j] = null;
-                }
-            }
+    const handleAtacar = (fila, columna) => {
+        if (!juegoEnCurso) {
+            ToastUtil.toastError('La partida no ha comenzado');
+            return;
         }
 
-        return tableroOculto.map((fila) => [...fila]);
-    };
-
-    const handleAtacar = (fila, columna) => {
         if (!juego.jugador2.puedeRecibirDano(fila, columna)) {
             ToastUtil.toastError('No puedes atacar esa posición');
         } else {
             juego.atacarComputadora(fila, columna);
             setTableroJugador([...juego.jugador1.tablero]);
-            let tableroOculto = ocultarTablero(juego.jugador2.tablero);
-            setTableroComputadora(tableroOculto);
+            setTableroComputadora(ocultarTablero(juego.jugador2.tablero));
             if (juego.jugador2.perdio()) {
                 ToastUtil.toastSuccess('Ganaste')
                 incrementarVictorias();
@@ -167,139 +148,51 @@ const JuegoVsComputadora = () => {
     return (
         <>
             <HeaderNavigation />
-            <form onSubmit={handlePortaviones}>
-                <label>
-                    Fila:
-                    <select value={filaPortaviones} onChange={(e) => setFilaPortaviones(e.target.value)}>
-                        {letras.map((letra) => (
-                            <option key={letra} value={letra}>
-                                {letra}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Columna:
-                    <select value={columnaPortaviones} onChange={(e) => setColumnaPortaviones(e.target.value)}>
-                        {numeros.map((numero) => (
-                            <option key={numero} value={numero}>
-                                {numero}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Orientación:
-                    <select
-                        value={orientacionPortaviones}
-                        onChange={(e) => setOrientacionPortaviones(e.target.value)}
-                    >
-                        <option value="horizontal">Horizontal</option>
-                        <option value="vertical">Vertical</option>
-                    </select>
-                </label>
-                <button type="submit" disabled={portavionesColocado}>Colocar Portaviones</button>
-            </form>
-            <form onSubmit={handleCrucero}>
-                <label>
-                    Fila:
-                    <select value={filaCrucero} onChange={(e) => setFilaCrucero(e.target.value)}>
-                        {letras.map((letra) => (
-                            <option key={letra} value={letra}>
-                                {letra}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Columna:
-                    <select value={columnaCrucero} onChange={(e) => setColumnaCrucero(e.target.value)}>
-                        {numeros.map((numero) => (
-                            <option key={numero} value={numero}>
-                                {numero}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Orientación:
-                    <select
-                        value={orientacionCrucero}
-                        onChange={(e) => setOrientacionCrucero(e.target.value)}
-                    >
-                        <option value="horizontal">Horizontal</option>
-                        <option value="vertical">Vertical</option>
-                    </select>
-                </label>
-                <button type="submit" disabled={cruceroColocado}>Colocar Crucero</button>
-            </form>
-            <form onSubmit={handleSubmarino}>
-                <label>
-                    Fila:
-                    <select value={filaSubmarino} onChange={(e) => setFilaSubmarino(e.target.value)}>
-                        {letras.map((letra) => (
-                            <option key={letra} value={letra}>
-                                {letra}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Columna:
-                    <select value={columnaSubmarino} onChange={(e) => setColumnaSubmarino(e.target.value)}>
-                        {numeros.map((numero) => (
-                            <option key={numero} value={numero}>
-                                {numero}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Orientación:
-                    <select
-                        value={orientacionSubmarino}
-                        onChange={(e) => setOrientacionSubmarino(e.target.value)}
-                    >
-                        <option value="horizontal">Horizontal</option>
-                        <option value="vertical">Vertical</option>
-                    </select>
-                </label>
-                <button type="submit" disabled={submarinoColocado}>Colocar Submarino</button>
-            </form>
-            <form onSubmit={handleLancha}>
-                <label>
-                    Fila:
-                    <select value={filaLancha} onChange={(e) => setFilaLancha(e.target.value)}>
-                        {letras.map((letra) => (
-                            <option key={letra} value={letra}>
-                                {letra}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Columna:
-                    <select value={columnaLancha} onChange={(e) => setColumnaLancha(e.target.value)}>
-                        {numeros.map((numero) => (
-                            <option key={numero} value={numero}>
-                                {numero}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Orientación:
-                    <select
-                        value={orientacionLancha}
-                        onChange={(e) => setOrientacionLancha(e.target.value)}
-                    >
-                        <option value="horizontal">Horizontal</option>
-                        <option value="vertical">Vertical</option>
-                    </select>
-                </label>
-                <button type="submit" disabled={lanchaColocado}>Colocar Lancha</button>
-            </form>
-            <button onClick={handleIniciarPartida} disabled={inicioPartida}>Listo</button>
+            <BarcoForm
+                onSubmit={handlePortaviones}
+                fila={filaPortaviones}
+                setFila={setFilaPortaviones}
+                columna={columnaPortaviones}
+                setColumna={setColumnaPortaviones}
+                orientacion={orientacionPortaviones}
+                setOrientacion={setOrientacionPortaviones}
+                barcoColocado={portavionesColocado}
+                nombreBarco="Portaviones"
+            />
+            <BarcoForm
+                onSubmit={handleCrucero}
+                fila={filaCrucero}
+                setFila={setFilaCrucero}
+                columna={columnaCrucero}
+                setColumna={setColumnaCrucero}
+                orientacion={orientacionCrucero}
+                setOrientacion={setOrientacionCrucero}
+                barcoColocado={cruceroColocado}
+                nombreBarco="Crucero"
+            />
+            <BarcoForm
+                onSubmit={handleSubmarino}
+                fila={filaSubmarino}
+                setFila={setFilaSubmarino}
+                columna={columnaSubmarino}
+                setColumna={setColumnaSubmarino}
+                orientacion={orientacionSubmarino}
+                setOrientacion={setOrientacionSubmarino}
+                barcoColocado={submarinoColocado}
+                nombreBarco="Submarino"
+            />
+            <BarcoForm
+                onSubmit={handleLancha}
+                fila={filaLancha}
+                setFila={setFilaLancha}
+                columna={columnaLancha}
+                setColumna={setColumnaLancha}
+                orientacion={orientacionLancha}
+                setOrientacion={setOrientacionLancha}
+                barcoColocado={lanchaColocado}
+                nombreBarco="Lancha"
+            />
+            <BotonListo onClick={handleIniciarPartida} disabled={inicioPartida} />
             <div className="tablero">
                 <h2>Jugador</h2>
                 <div className="filas-numero">
@@ -317,6 +210,7 @@ const JuegoVsComputadora = () => {
                             <div
                                 key={numero}
                                 className="celda"
+                                style={{ backgroundColor: determinarColorCelda(tableroJugador[fila][columna]) }}
                             >
                                 {tableroJugador[fila][columna]}
                             </div>
@@ -324,7 +218,6 @@ const JuegoVsComputadora = () => {
                     </div>
                 ))}
 
-                {/* Tablero de la Computadora */}
                 <h2>Computadora</h2>
                 <div className="filas-numero">
                     <div className="numero-celda"></div>
@@ -340,7 +233,8 @@ const JuegoVsComputadora = () => {
                         {numeros.map((numero, columna) => (
                             <div
                                 key={numero}
-                                className="celda"
+                                className="celda-clickeable"
+                                style={{ backgroundColor: determinarColorCeldaOculta(tableroComputadora[fila][columna]) }}
                                 onClick={() => handleAtacar(letra, numero)}
                             >
                                 {tableroComputadora[fila][columna]}

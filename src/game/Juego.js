@@ -17,6 +17,16 @@ export class Juego {
         this.jugador1.recibirDano(fila, columna);
     }
 
+    tipoCelda(letra) {
+        switch (letra) {
+            case 'P': return 'portaaviones';
+            case 'C': return 'crucero';
+            case 'S': return 'submarino';
+            case 'L': return 'lancha';
+            default: return 'Agua';
+        }
+    }
+
     jugarContraComputadora() {
         this.jugador2.colocarBarcosAleatoriamente();
     }

@@ -1,4 +1,5 @@
 import {Barco} from "./Barco.js";
+import {letras} from "../utils/constantes.js";
 
 export class Jugador {
     constructor() {
@@ -201,7 +202,6 @@ export class Jugador {
 
     colocarBarcosAleatoriamente() {
         let letrasBarco = ['portaaviones', 'crucero', 'submarino', 'lancha'];
-        const letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
         while (letrasBarco.length !== 0) {
             let tipo = letrasBarco[0];
@@ -213,7 +213,6 @@ export class Jugador {
                 letrasBarco.shift();
             }
         }
-        console.log('Barcos colocados aleatoriamente')
     }
 
     barcosEnPosicion() {
@@ -227,7 +226,6 @@ export class Jugador {
         }
         return contarBarcos === 14;
     }
-
     puedeRecibirDano(fila, columna) {
         const realRow = this.filaToNumber(fila);
         const realColumn = columna - 1;

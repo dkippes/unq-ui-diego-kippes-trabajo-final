@@ -33,7 +33,7 @@
     color: white;
 }
 
-.celda {
+.celda-clickeable {
     flex: 1;
     cursor: pointer;
     text-align: center;
@@ -41,8 +41,15 @@
     border: 1px solid #ddd;
 }
 
-.celda:hover {
+.celda-clickeable:hover {
     background-color: #f5f5f5;
+}
+
+.celda {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ddd;
 }
 
 /* En tu archivo JuegoVsComputadora.css */
