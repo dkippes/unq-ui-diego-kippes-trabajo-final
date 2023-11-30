@@ -9,6 +9,11 @@ import BarcoForm from "../../components/BarcoForm.jsx";
 import BotonListo from "../../components/BotonList.jsx";
 import {letras, numeros, letrasBarco} from "../../utils/constantes.js";
 import {determinarColorCelda, determinarColorCeldaOculta, ocultarTablero} from "../../utils/utils.js";
+import Lancha from "../../static/lancha.png";
+import Submarino from "../../static/submarino.png";
+import Crucero from "../../static/crucero.png";
+import Portaaviones from "../../static/portaaviones.png";
+import ImagenBarco from "../../components/ImagenBarco.jsx";
 
 const JuegoVsComputadora = () => {
     const juego = useMemo(() => new Juego(), []);
@@ -149,6 +154,10 @@ const JuegoVsComputadora = () => {
     return (
         <>
             <HeaderNavigation />
+            <ImagenBarco src={Portaaviones} alt="Portaaviones" />
+            <ImagenBarco src={Crucero} alt="Crucero" />
+            <ImagenBarco src={Submarino} alt="Submarino" />
+            <ImagenBarco src={Lancha} alt="Lancha" />
             <BarcoForm
                 onSubmit={handlePortaviones}
                 fila={filaPortaviones}
