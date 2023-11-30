@@ -21,22 +21,22 @@ const JuegoVsComputadora = () => {
     const [juegoEnCurso, setJuegoEnCurso] = useState(false);
 
     const [filaPortaviones, setFilaPortaviones] = useState('A');
-    const [columnaPortaviones, setColumnaPortaviones] = useState('1');
+    const [columnaPortaviones, setColumnaPortaviones] = useState(0);
     const [orientacionPortaviones, setOrientacionPortaviones] = useState('horizontal');
     const [portavionesColocado, setPortavionesColocado] = useState(false);
 
     const [filaCrucero, setFilaCrucero] = useState('A');
-    const [columnaCrucero, setColumnaCrucero] = useState('1');
+    const [columnaCrucero, setColumnaCrucero] = useState(0);
     const [orientacionCrucero, setOrientacionCrucero] = useState('horizontal');
     const [cruceroColocado, setCruceroColocado] = useState(false);
 
     const [filaSubmarino, setFilaSubmarino] = useState('A');
-    const [columnaSubmarino, setColumnaSubmarino] = useState('1');
+    const [columnaSubmarino, setColumnaSubmarino] = useState(0);
     const [orientacionSubmarino, setOrientacionSubmarino] = useState('horizontal');
     const [submarinoColocado, setSubmarinoColocado] = useState(false);
 
     const [filaLancha, setFilaLancha] = useState('A');
-    const [columnaLancha, setColumnaLancha] = useState('1');
+    const [columnaLancha, setColumnaLancha] = useState(0);
     const [orientacionLancha, setOrientacionLancha] = useState('horizontal');
     const [lanchaColocado, setLanchaColocado] = useState(false);
 
@@ -137,6 +137,7 @@ const JuegoVsComputadora = () => {
                 ToastUtil.toastSuccess('Ganaste')
                 incrementarVictorias();
                 navigate('/');
+                return;
             }
             if (juego.jugador1.perdio()) {
                 ToastUtil.toastError('Perdiste')

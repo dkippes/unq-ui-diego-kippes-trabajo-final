@@ -18,11 +18,10 @@ export class Jugador {
         const letra = this.letra(longitud);
         const letrasFiltradas = letras.filter(l => l !== letra);
         const realRow = this.filaToNumber(fila);
-        const realColumn = columna - 1;
         if (orientacion === 'horizontal') {
-            return this.esPosicionDisponibleHorizontal(realRow, letra, letrasFiltradas, realColumn, longitud);
+            return this.esPosicionDisponibleHorizontal(realRow, letra, letrasFiltradas, columna, longitud);
         } else {
-            return this.esPosicionDisponibleVertical(realRow, letra, letrasFiltradas, realColumn, longitud);
+            return this.esPosicionDisponibleVertical(realRow, letra, letrasFiltradas, columna, longitud);
         }
     }
 
@@ -137,12 +136,11 @@ export class Jugador {
 
     colocarBarco(tipo, fila, columna, orientacion) {
         const longitud = this.barcos[tipo].longitud;
-        const realColumn = columna - 1;
         const realRow = this.filaToNumber(fila);
         if (orientacion === 'horizontal') {
-            this.colocarBarcoHorizontal(tipo, realRow, realColumn, longitud);
+            this.colocarBarcoHorizontal(tipo, realRow, columna, longitud);
         } else {
-            this.colocarBarcoVertical(tipo, realRow, realColumn, longitud);
+            this.colocarBarcoVertical(tipo, realRow, columna, longitud);
         }
     }
 
@@ -228,22 +226,20 @@ export class Jugador {
     }
     puedeRecibirDano(fila, columna) {
         const realRow = this.filaToNumber(fila);
-        const realColumn = columna - 1;
         let letras = ['P', 'C', 'S', 'L'];
-        let celda = this.tablero[realRow][realColumn];
+        let celda = this.tablero[realRow][columna];
         return celda === null || letras.includes(celda);
     }
 
     recibirDano(fila, columna) {
         const realRow = this.filaToNumber(fila);
-        const realColumn = columna - 1;
-        const letra = this.tablero[realRow][realColumn];
+        const letra = this.tablero[realRow][columna];
         if (letra === null) {
-            this.tablero[realRow][realColumn] = 'X';
+            this.tablero[realRow][columna] = 'X';
         } else {
             const tipo = this.tipoBarco(letra);
             this.barcos[tipo].recibirImpacto();
-            this.tablero[realRow][realColumn] = 'O';
+            this.tablero[realRow][columna] = 'O';
         }
     }
 
