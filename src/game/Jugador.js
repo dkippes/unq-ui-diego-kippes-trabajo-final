@@ -1,5 +1,6 @@
 import {Barco} from "./Barco.js";
 import {letras} from "../utils/constantes.js";
+import {checkPosicion, filaToNumber, filaYColumaDisponible, letraLogitud, tipoBarco} from "../utils/utils.js";
 
 export class Jugador {
     constructor() {
@@ -13,24 +14,20 @@ export class Jugador {
     }
 
     esPosicionDisponible(tipo, fila, columna, orientacion) {
-        const letras = ['P', 'C', 'S', 'L'];
         const longitud = this.barcos[tipo].longitud;
-        const letra = this.letra(longitud);
-        const letrasFiltradas = letras.filter(l => l !== letra);
-        const realRow = this.filaToNumber(fila);
+        const realRow = filaToNumber(fila);
         if (orientacion === 'horizontal') {
-            return this.esPosicionDisponibleHorizontal(realRow, letra, letrasFiltradas, columna, longitud);
+            return this.esPosicionDisponibleHorizontal(realRow, columna, longitud);
         } else {
-            return this.esPosicionDisponibleVertical(realRow, letra, letrasFiltradas, columna, longitud);
+            return this.esPosicionDisponibleVertical(realRow, columna, longitud);
         }
     }
 
-    esPosicionDisponibleHorizontal(fila, letra, letras, columna, longitud) {
-        if (columna + longitud > 10) {
+    esPosicionDisponibleHorizontal(fila, columna, longitud) {
+        if (filaYColumaDisponible(columna, longitud)) {
             return false;
         }
 
-        // Verificar si las posiciones están vacías
         for (let i = 0; i < longitud; i++) {
             const posicionColumna = columna + i;
             let norte = posicionColumna - 1;
@@ -38,54 +35,17 @@ export class Jugador {
             let este = fila + 1;
             let oeste = fila - 1;
 
-            // Verificar si la posición está ocupada
-            if (this.tablero[fila][posicionColumna] !== null) {
-                return false;
-            }
-
-            // Norte
-            if (norte >= 0 && !(this.tablero[fila][norte] === null)) {
-                return false;
-            }
-            // Sur
-            if (sur <= 9 && !(this.tablero[fila][sur] === null)) {
-                return false;
-            }
-            // Este
-            if (este <= 9 && !(this.tablero[este][posicionColumna] === null)) {
-                return false;
-            }
-            // Oeste
-            if (oeste >= 0 && !(this.tablero[oeste][posicionColumna] === null)) {
-                return false;
-            }
-            // Noroeste
-            if (norte >= 0 && oeste >= 0 && !(this.tablero[oeste][norte] === null)) {
-                return false;
-            }
-            // Noreste
-            if (norte >= 0 && este <= 9 && !(this.tablero[este][norte] === null)) {
-                return false;
-            }
-            // Suroeste
-            if (sur <= 9 && oeste >= 0 && !(this.tablero[oeste][sur] === null)) {
-                return false;
-            }
-            // Sureste
-            if (sur <= 9 && este <= 9 && !(this.tablero[este][sur] === null)) {
+            if (!checkPosicion(fila, posicionColumna, norte, sur, este, oeste, this.tablero)) {
                 return false;
             }
         }
         return true;
     }
-
-
-    esPosicionDisponibleVertical(fila, letra, letras, columna, longitud) {
-        if (fila + longitud > 10) {
+    esPosicionDisponibleVertical(fila, columna, longitud) {
+        if (filaYColumaDisponible(fila, longitud)) {
             return false;
         }
 
-        // Verificar si las posiciones están vacías
         for (let i = 0; i < longitud; i++) {
             const posicionFila = fila + i;
             let norte = columna - 1;
@@ -93,41 +53,7 @@ export class Jugador {
             let este = posicionFila + 1;
             let oeste = posicionFila - 1;
 
-            // Verificar si la posición está ocupada
-            if (this.tablero[posicionFila][columna] !== null) {
-                return false;
-            }
-
-            // Norte
-            if (norte >= 0 && !(this.tablero[posicionFila][norte] === null)) {
-                return false;
-            }
-            // Sur
-            if (sur <= 9 && !(this.tablero[posicionFila][sur] === null)) {
-                return false;
-            }
-            // Este
-            if (este <= 9 && !(this.tablero[este][columna] === null)) {
-                return false;
-            }
-            // Oeste
-            if (oeste >= 0 && !(this.tablero[oeste][columna] === null)) {
-                return false;
-            }
-            // Noroeste
-            if (norte >= 0 && oeste >= 0 && !(this.tablero[oeste][norte] === null)) {
-                return false;
-            }
-            // Noreste
-            if (norte >= 0 && este <= 9 && !(this.tablero[este][norte] === null)) {
-                return false;
-            }
-            // Suroeste
-            if (sur <= 9 && oeste >= 0 && !(this.tablero[oeste][sur] === null)) {
-                return false;
-            }
-            // Sureste
-            if (sur <= 9 && este <= 9 && !(this.tablero[este][sur] === null)) {
+            if (!checkPosicion(posicionFila, columna, norte, sur, este, oeste, this.tablero)) {
                 return false;
             }
         }
@@ -136,7 +62,7 @@ export class Jugador {
 
     colocarBarco(tipo, fila, columna, orientacion) {
         const longitud = this.barcos[tipo].longitud;
-        const realRow = this.filaToNumber(fila);
+        const realRow = filaToNumber(fila);
         if (orientacion === 'horizontal') {
             this.colocarBarcoHorizontal(tipo, realRow, columna, longitud);
         } else {
@@ -145,7 +71,7 @@ export class Jugador {
     }
 
     colocarBarcoHorizontal(tipo, fila, columna, longitud) {
-        const letra = this.letra(longitud);
+        const letra = letraLogitud(longitud);
         const nuevoTablero = this.tablero.map((filaActual) => [...filaActual]);
 
         // Reemplazar las posiciones específicas con la letra
@@ -159,7 +85,7 @@ export class Jugador {
     }
 
     colocarBarcoVertical(tipo, fila, columna, longitud) {
-        const letra = this.letra(longitud);
+        const letra = letraLogitud(longitud);
         const nuevoTablero = this.tablero.map((filaActual) => [...filaActual]);
 
         // Reemplazar las posiciones específicas con la letra
@@ -170,32 +96,6 @@ export class Jugador {
 
         // Actualizar el tablero con la nueva copia
         this.tablero = nuevoTablero;
-    }
-
-    filaToNumber(fila) {
-        switch (fila) {
-            case 'A': return 0;
-            case 'B': return 1;
-            case 'C': return 2;
-            case 'D': return 3;
-            case 'E': return 4;
-            case 'F': return 5;
-            case 'G': return 6;
-            case 'H': return 7;
-            case 'I': return 8;
-            case 'J': return 9;
-            default: return -1;
-        }
-    }
-
-    letra(longitud) {
-        switch (longitud) {
-            case 5: return 'P';
-            case 4: return 'C';
-            case 3: return 'S';
-            case 2: return 'L';
-            default: return 'X';
-        }
     }
 
     colocarBarcosAleatoriamente() {
@@ -225,31 +125,21 @@ export class Jugador {
         return contarBarcos === 14;
     }
     puedeRecibirDano(fila, columna) {
-        const realRow = this.filaToNumber(fila);
+        const realRow = filaToNumber(fila);
         let letras = ['P', 'C', 'S', 'L'];
         let celda = this.tablero[realRow][columna];
         return celda === null || letras.includes(celda);
     }
 
     recibirDano(fila, columna) {
-        const realRow = this.filaToNumber(fila);
+        const realRow = filaToNumber(fila);
         const letra = this.tablero[realRow][columna];
         if (letra === null) {
             this.tablero[realRow][columna] = 'X';
         } else {
-            const tipo = this.tipoBarco(letra);
+            const tipo = tipoBarco(letra);
             this.barcos[tipo].recibirImpacto();
             this.tablero[realRow][columna] = 'O';
-        }
-    }
-
-    tipoBarco(letra) {
-        switch (letra) {
-            case 'P': return 'portaaviones';
-            case 'C': return 'crucero';
-            case 'S': return 'submarino';
-            case 'L': return 'lancha';
-            default: return 'X';
         }
     }
 

@@ -1,0 +1,35 @@
+/* Agrega estas reglas CSS a tu archivo HeaderNavigation.css o crea uno nuevo si es necesario */
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    background: #fff; /* Fondo blanco para el contenido del modal */
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+}
+
+.closeButton {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+    font-size: 30px;
+    color: #333;
+}
+
+.text-black {
+    color: black;
+}

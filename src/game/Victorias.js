@@ -1,7 +1,8 @@
-let victorias = 0;
+let victorias = parseInt(localStorage.getItem('victorias')) || 0;
 
 export function incrementarVictorias() {
     victorias++;
+    localStorage.setItem('victorias', victorias.toString());
 }
 
 export function getVictorias() {
@@ -10,4 +11,5 @@ export function getVictorias() {
 
 export function resetVictorias() {
     victorias = 0;
+    localStorage.setItem('victorias', '0');
 }

@@ -1,9 +1,18 @@
-.linkToHome {
+.headerContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 4rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    background: black;
+}
+
+.headerLink {
     text-decoration: none;
     cursor: pointer;
     transition: text-decoration 0.3s;  /* Efecto de transición al hover */
 }
 
-.linkToHome:hover {
+.headerLink:hover {
     text-decoration: underline;
 }

@@ -13,14 +13,14 @@ const HomePage = () => {
 
     return (
         <div className="pagina-principal-container">
-            <h1>Batalla Naval</h1>
+            <h1 className="text-black">Batalla Naval</h1>
             <Link to="/vs-computadora" className="boton-link">
                 <button className="boton">Jugar vs COM</button>
             </Link>
             <Link to="/vs-jugador" className="boton-link">
                 <button className="boton">Jugar vs Player</button>
             </Link>
-            <h3>Victorias: {victorias}</h3>
+            <h3 className="text-black">Victorias: {victorias}</h3>
         </div>
     );
 };

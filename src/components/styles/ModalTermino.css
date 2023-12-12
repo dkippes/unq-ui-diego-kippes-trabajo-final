@@ -1,0 +1,51 @@
+/* Agrega estas reglas CSS a tu archivo HeaderNavigation.css o crea uno nuevo si es necesario */
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente oscuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    background: #fff; /* Fondo blanco para el contenido del modal */
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+}
+
+.modalTermino-textarea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+}
+
+.modalTermino-buttonarea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75%;
+}
+
+@media (max-width: 415px) {
+    .boton {
+        width: 150px;
+    }
+
+    .modalTermino-textarea {
+        width: 50%;
+    }
+
+    .modalTermino-buttonarea {
+        width: 50%;
+    }
+}
