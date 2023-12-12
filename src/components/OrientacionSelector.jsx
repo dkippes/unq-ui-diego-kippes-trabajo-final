@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OrientacionSelector = ({ handleSelectChange }) => {
+const OrientacionSelector = ({handleSelectChange}) => {
     return (
         <div>
             <select

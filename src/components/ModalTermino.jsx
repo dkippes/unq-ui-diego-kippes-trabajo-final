@@ -1,4 +1,3 @@
-// Modal.js
 import React, {useEffect, useState} from 'react';
 import './styles/ModalTermino.css';
 import {getVictorias} from "../game/Victorias.js";

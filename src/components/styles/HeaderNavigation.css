@@ -10,7 +10,7 @@
 .headerLink {
     text-decoration: none;
     cursor: pointer;
-    transition: text-decoration 0.3s;  /* Efecto de transición al hover */
+    transition: text-decoration 0.3s;
 }
 
 .headerLink:hover {

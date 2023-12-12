@@ -4,7 +4,7 @@ import {checkPosicion, filaToNumber, filaYColumaDisponible, letraLogitud, tipoBa
 
 export class Jugador {
     constructor() {
-        this.tablero = Array.from({ length: 10 }, () => Array(10).fill(null));
+        this.tablero = Array.from({length: 10}, () => Array(10).fill(null));
         this.barcos = {
             portaaviones: new Barco('Portaaviones', 5),
             crucero: new Barco('Crucero', 4),
@@ -35,12 +35,13 @@ export class Jugador {
             let este = fila + 1;
             let oeste = fila - 1;
 
-            if (!checkPosicion(fila, posicionColumna, norte, sur, este, oeste, this.tablero)) {
+            if (checkPosicion(fila, posicionColumna, norte, sur, este, oeste, this.tablero)) {
                 return false;
             }
         }
         return true;
     }
+
     esPosicionDisponibleVertical(fila, columna, longitud) {
         if (filaYColumaDisponible(fila, longitud)) {
             return false;
@@ -53,7 +54,7 @@ export class Jugador {
             let este = posicionFila + 1;
             let oeste = posicionFila - 1;
 
-            if (!checkPosicion(posicionFila, columna, norte, sur, este, oeste, this.tablero)) {
+            if (checkPosicion(posicionFila, columna, norte, sur, este, oeste, this.tablero)) {
                 return false;
             }
         }
@@ -74,13 +75,11 @@ export class Jugador {
         const letra = letraLogitud(longitud);
         const nuevoTablero = this.tablero.map((filaActual) => [...filaActual]);
 
-        // Reemplazar las posiciones específicas con la letra
         for (let i = 0; i < longitud; i++) {
             const posicionColumna = columna + i;
             nuevoTablero[fila][posicionColumna] = letra;
         }
 
-        // Actualizar el tablero con la nueva copia
         this.tablero = nuevoTablero;
     }
 
@@ -88,13 +87,11 @@ export class Jugador {
         const letra = letraLogitud(longitud);
         const nuevoTablero = this.tablero.map((filaActual) => [...filaActual]);
 
-        // Reemplazar las posiciones específicas con la letra
         for (let i = 0; i < longitud; i++) {
             const posicionFila = fila + i;
             nuevoTablero[posicionFila][columna] = letra;
         }
 
-        // Actualizar el tablero con la nueva copia
         this.tablero = nuevoTablero;
     }
 
@@ -124,6 +121,7 @@ export class Jugador {
         }
         return contarBarcos === 14;
     }
+
     puedeRecibirDano(fila, columna) {
         const realRow = filaToNumber(fila);
         let letras = ['P', 'C', 'S', 'L'];

@@ -1,8 +1,7 @@
-// Modal.js
 import React from 'react';
 import './styles/ModalAyuda.css';
 
-const ModalAyuda = ({ onClose }) => {
+const ModalAyuda = ({onClose}) => {
     return (
         <div className="modalOverlay">
             <div className="modalContent">

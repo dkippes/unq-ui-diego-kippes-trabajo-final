@@ -1,5 +1,16 @@
 import Water from "../static/water.png";
 import Fire from "../static/fire.png";
+import {
+    checkEste,
+    checkNoreste,
+    checkNoroeste,
+    checkNorte,
+    checkOeste,
+    checkPosicionActual,
+    checkSur,
+    checkSureste,
+    checkSuroeste
+} from "./constantes.js";
 
 export const ocultarTablero = (tablero) => {
     const tableroOculto = tablero.map((fila) => fila.slice());
@@ -98,63 +109,15 @@ export const filaToNumber = (fila) => {
     }
 }
 
-
-const checkSureste = (sur, este, tablero) => sur <= 9 && este <= 9 && !(tablero[este][sur] === null);
-
-const checkSuroeste = (sur, oeste, tablero) => sur <= 9 && oeste >= 0 && !(tablero[oeste][sur] === null);
-
-const checkNoreste = (norte, este, tablero) => norte >= 0 && este <= 9 && !(tablero[este][norte] === null);
-
-const checkNoroeste = (norte, oeste, tablero) => norte >= 0 && oeste >= 0 && !(tablero[oeste][norte] === null);
-
-const checkOeste = (oeste, posicionColumna, tablero) => oeste >= 0 && !(tablero[oeste][posicionColumna] === null);
-
-const checkEste = (este, posicionColumna, tablero) => este <= 9 && !(tablero[este][posicionColumna] === null);
-
-const checkSur = (sur, fila, tablero) => sur <= 9 && !(tablero[fila][sur] === null);
-
-const checkNorte = (norte, fila, tablero) => norte >= 0 && !(tablero[fila][norte] === null);
-
-const checkPosicionActual = (fila, posicionColumna, tablero) => (tablero[fila][posicionColumna] !== null);
-
 export const checkPosicion = (fila, posicionColumna, norte, sur, este, oeste, tablero) => {
-    if (checkPosicionActual(fila, posicionColumna, tablero)) {
-        return false;
-    }
-
-    // Norte
-    if (checkNorte(norte, fila, tablero)) {
-        return false;
-    }
-    // Sur
-    if (checkSur(sur, fila, tablero)) {
-        return false;
-    }
-    // Este
-    if (checkEste(este, posicionColumna, tablero)) {
-        return false;
-    }
-    // Oeste
-    if (checkOeste(oeste, posicionColumna, tablero)) {
-        return false;
-    }
-    // Noroeste
-    if (checkNoroeste(norte, oeste, tablero)) {
-        return false;
-    }
-    // Noreste
-    if (checkNoreste(norte, este, tablero)) {
-        return false;
-    }
-    // Suroeste
-    if (checkSuroeste(sur, oeste, tablero)) {
-        return false;
-    }
-    // Sureste
-    if (checkSureste(sur, este, tablero)) {
-        return false;
-    }
-    return true;
+    return checkPosicionActual(fila, posicionColumna, tablero)
+        || checkNorte(norte, fila, tablero) || checkSur(sur, fila, tablero)
+        || checkEste(este, posicionColumna, tablero)
+        || checkOeste(oeste, posicionColumna, tablero)
+        || checkNoroeste(norte, oeste, tablero)
+        || checkNoreste(norte, este, tablero)
+        || checkSuroeste(sur, oeste, tablero)
+        || checkSureste(sur, este, tablero);
 }
 
 export const filaYColumaDisponible = (fila, longitud) => {

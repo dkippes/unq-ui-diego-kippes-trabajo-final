@@ -1,7 +1,7 @@
 import React from 'react';
 import {determinarColorCelda, determinarImagenCelda} from "../utils/utils.js";
 
-const Celda = ({ letra, numero, tablero, fila, columna }) => {
+const Celda = ({letra, numero, tablero, fila, columna}) => {
     return (
         <div
             className="celda"

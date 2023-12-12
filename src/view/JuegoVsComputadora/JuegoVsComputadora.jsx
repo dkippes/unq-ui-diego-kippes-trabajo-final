@@ -7,13 +7,8 @@ import {incrementarVictorias} from '../../game/Victorias.js';
 import ToastUtil from '../../utils/ToastUtil.js';
 import ImagenBarco from '../../components/ImagenBarco.jsx';
 import BotonJugar from '../../components/BotonJugar.jsx';
-import Modal from 'react-modal';
-import {
-    determinarColorCelda,
-    determinarImagenCelda,
-    ocultarTablero,
-} from '../../utils/utils.js';
-import {letras, numeros, letrasBarco} from '../../utils/constantes.js';
+import {ocultarTablero,} from '../../utils/utils.js';
+import {letras, letrasBarco, numeros} from '../../utils/constantes.js';
 import Lancha from '../../static/lancha.png';
 import Submarino from '../../static/submarino.png';
 import Crucero from '../../static/crucero.png';
@@ -150,91 +145,91 @@ const JuegoVsComputadora = () => {
         <>
             <HeaderNavigation/>
             <div className="juego-vs-computadora">
-            {!juegoEnCurso && (
-                <div className="formulario-container">
-                    <ImagenBarco
-                        src={Portaaviones}
-                        alt="Portaaviones"
-                        onClick={(e) => handleImagenClick([0, 'Portaaviones'])}
-                        blancoNegro={!barcosColocados.Portaaviones}
-                        disabled={barcosColocados.Portaaviones}
-                    />
-                    <ImagenBarco
-                        src={Crucero}
-                        alt="Crucero"
-                        onClick={(e) => handleImagenClick([1, 'Crucero'])}
-                        blancoNegro={!barcosColocados.Crucero}
-                        disabled={!barcosColocados.Crucero}
-                    />
-                    <ImagenBarco
-                        src={Submarino}
-                        alt="Submarino"
-                        onClick={(e) => handleImagenClick([2, 'Submarino'])}
-                        blancoNegro={!barcosColocados.Submarino}
-                        disabled={!barcosColocados.Submarino}
-                    />
-                    <ImagenBarco
-                        src={Lancha}
-                        alt="Lancha"
-                        onClick={(e) => handleImagenClick([3, 'Lancha'])}
-                        blancoNegro={!barcosColocados.Lancha}
-                        disabled={!barcosColocados.Lancha}
-                    />
-                    <OrientacionSelector handleSelectChange={handleSelectChange} />
-                    <div>
-                        <BotonJugar onClick={handleIniciarPartida} disabled={inicioPartida}/>
+                {!juegoEnCurso && (
+                    <div className="formulario-container">
+                        <ImagenBarco
+                            src={Portaaviones}
+                            alt="Portaaviones"
+                            onClick={(e) => handleImagenClick([0, 'Portaaviones'])}
+                            blancoNegro={!barcosColocados.Portaaviones}
+                            disabled={barcosColocados.Portaaviones}
+                        />
+                        <ImagenBarco
+                            src={Crucero}
+                            alt="Crucero"
+                            onClick={(e) => handleImagenClick([1, 'Crucero'])}
+                            blancoNegro={!barcosColocados.Crucero}
+                            disabled={!barcosColocados.Crucero}
+                        />
+                        <ImagenBarco
+                            src={Submarino}
+                            alt="Submarino"
+                            onClick={(e) => handleImagenClick([2, 'Submarino'])}
+                            blancoNegro={!barcosColocados.Submarino}
+                            disabled={!barcosColocados.Submarino}
+                        />
+                        <ImagenBarco
+                            src={Lancha}
+                            alt="Lancha"
+                            onClick={(e) => handleImagenClick([3, 'Lancha'])}
+                            blancoNegro={!barcosColocados.Lancha}
+                            disabled={!barcosColocados.Lancha}
+                        />
+                        <OrientacionSelector handleSelectChange={handleSelectChange}/>
+                        <div>
+                            <BotonJugar onClick={handleIniciarPartida} disabled={inicioPartida}/>
+                        </div>
+                    </div>
+                )}
+                <div className="tablero-container">
+                    <div
+                        className="tablero"
+                        onClick={(e) =>
+                            handleTableroClick(e.target.dataset.fila, e.target.dataset.columna)
+                        }
+                    >
+                        <TituloTablero titulo={"Jugador"}/>
+                        <NumeroFila numeros={numeros}/>
+                        {letras.map((letra, fila) => (
+                            <div key={letra} className="fila-letra">
+                                <div className="letra-celda">{letra}</div>
+                                {numeros.map((numero, columna) => (
+                                    <Celda
+                                        key={numero}
+                                        letra={letra}
+                                        numero={numero}
+                                        tablero={tableroJugador}
+                                        fila={fila}
+                                        columna={columna}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="tablero">
+                        <TituloTablero titulo={"Computadora"}/>
+                        <NumeroFila numeros={numeros}/>
+                        {letras.map((letra, fila) => (
+                            <div key={letra} className="fila-letra">
+                                <div className="letra-celda">{letra}</div>
+                                {numeros.map((numero, columna) => (
+                                    <CeldaOculta
+                                        key={numero}
+                                        letra={letra}
+                                        numero={numero}
+                                        tablero={tableroComputadora}
+                                        fila={fila}
+                                        columna={columna}
+                                        handleAtacar={handleAtacar}
+                                    />
+                                ))}
+                            </div>
+                        ))}
                     </div>
                 </div>
-            )}
-            <div className="tablero-container">
-                <div
-                    className="tablero"
-                    onClick={(e) =>
-                        handleTableroClick(e.target.dataset.fila, e.target.dataset.columna)
-                    }
-                >
-                    <TituloTablero titulo={"Jugador"}/>
-                    <NumeroFila numeros={numeros} />
-                    {letras.map((letra, fila) => (
-                        <div key={letra} className="fila-letra">
-                            <div className="letra-celda">{letra}</div>
-                            {numeros.map((numero, columna) => (
-                                <Celda
-                                    key={numero}
-                                    letra={letra}
-                                    numero={numero}
-                                    tablero={tableroJugador}
-                                    fila={fila}
-                                    columna={columna}
-                                />
-                            ))}
-                        </div>
-                    ))}
-                </div>
-
-                <div className="tablero">
-                    <TituloTablero titulo={"Computadora"}/>
-                    <NumeroFila numeros={numeros} />
-                    {letras.map((letra, fila) => (
-                        <div key={letra} className="fila-letra">
-                            <div className="letra-celda">{letra}</div>
-                            {numeros.map((numero, columna) => (
-                                <CeldaOculta
-                                    key={numero}
-                                    letra={letra}
-                                    numero={numero}
-                                    tablero={tableroComputadora}
-                                    fila={fila}
-                                    columna={columna}
-                                    handleAtacar={handleAtacar}
-                                />
-                            ))}
-                        </div>
-                    ))}
-                </div>
-            </div>
                 {modalTermino.showModal && (
-                    <ModalTermino onClose={closeModal} estado={modalTermino.estado} />
+                    <ModalTermino onClose={closeModal} estado={modalTermino.estado}/>
                 )}
             </div>
         </>

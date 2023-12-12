@@ -1,8 +1,7 @@
 import {useEffect, useState} from 'react'
-import {Link, useLocation, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import './styles/HomePage.css';
 import {getVictorias} from "../../game/Victorias.js";
-import ToastUtil from "../../utils/ToastUtil.js";
 
 const HomePage = () => {
     const [victorias, setVictorias] = useState(getVictorias());

@@ -21,23 +21,23 @@ const HeaderNavigation = () => {
 
     return (
         <>
-        <div className={"headerContainer"}>
-            <div>
-                <h3 onClick={handleNavigate} className="headerLink">
-                    Inicio
-                </h3>
+            <div className={"headerContainer"}>
+                <div>
+                    <h3 onClick={handleNavigate} className="headerLink">
+                        Inicio
+                    </h3>
+                </div>
+                <div>
+                    <h3 onClick={handleOpenModal} className="headerLink">
+                        Ayuda
+                    </h3>
+                    {isModalOpen && (
+                        <ModalAyuda onClose={handleCloseModal}/>
+                    )}
+                </div>
             </div>
-            <div>
-                <h3 onClick={handleOpenModal} className="headerLink">
-                    Ayuda
-                </h3>
-                {isModalOpen && (
-                    <ModalAyuda onClose={handleCloseModal} />
-                )}
-            </div>
-        </div>
 
-    </>
+        </>
 
     );
 };

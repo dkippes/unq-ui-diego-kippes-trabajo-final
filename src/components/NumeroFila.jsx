@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NumeroFila = ({ numeros }) => {
+const NumeroFila = ({numeros}) => {
     return (
         <div className="filas-numero">
             <div className="numero-celda"></div>

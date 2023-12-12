@@ -1,6 +1,5 @@
-// BarcoForm.jsx
 import React from 'react';
-import { letras, numeros } from '../utils/constantes.js';  // Asegúrate de colocar la ruta correcta
+import {letras, numeros} from '../utils/constantes.js';
 
 const BarcoForm = ({
                        onSubmit,

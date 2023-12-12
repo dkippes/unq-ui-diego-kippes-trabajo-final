@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import HeaderNavigation from "../../components/HeaderNavigation.jsx";
 import './styles/JuegoVsJugador.css';
 
