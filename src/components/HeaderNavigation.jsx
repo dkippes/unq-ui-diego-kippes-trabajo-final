@@ -29,7 +29,7 @@ const HeaderNavigation = () => {
                 </div>
                 <div>
                     <h3 onClick={handleOpenModal} className="headerLink">
-                        Ayuda
+                        Guía de Juego
                     </h3>
                     {isModalOpen && (
                         <ModalAyuda onClose={handleCloseModal}/>

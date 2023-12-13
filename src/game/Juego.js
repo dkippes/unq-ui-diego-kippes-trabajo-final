@@ -29,5 +29,16 @@ export class Juego {
 
     jugarContraComputadora() {
         this.jugador2.colocarBarcosAleatoriamente();
+        const empiezaComputadora = Math.floor(Math.random() * 2) === 1;
+        if (empiezaComputadora) {
+            let fila;
+            let columna;
+            do {
+                fila = letras[Math.floor(Math.random() * letras.length)];
+                columna = Math.floor(Math.random() * 10);
+            } while (!this.jugador1.puedeRecibirDano(fila, columna));
+            this.turno = 1;
+            this.jugador1.recibirDano(fila, columna);
+        }
     }
 }

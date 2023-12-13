@@ -140,6 +140,10 @@
 }
 
 @media (max-width: 750px) {
+    .juego-vs-computadora {
+        overflow: auto;
+    }
+
     .tablero-container {
         flex-direction: column;
         background-color: transparent;
