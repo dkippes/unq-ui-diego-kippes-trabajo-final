@@ -3,7 +3,7 @@ import './styles/ModalTermino.css';
 import {getVictorias} from "../game/Victorias.js";
 import {Link} from "react-router-dom";
 
-const ModalTermino = ({onClose, estado}) => {
+const ModalTermino = ({estado}) => {
     const [victorias, setVictorias] = useState(getVictorias());
 
     useEffect(() => {
@@ -14,8 +14,8 @@ const ModalTermino = ({onClose, estado}) => {
         <div className="modalOverlay">
             <div className="modalContent">
                 <div className="modalTermino-textarea">
-                    <h1 className={"text-black"}>{estado}!</h1>
-                    <h3 className={"text-black"}>Victorias: {victorias}</h3>
+                    <h1 className="text-black">¡{estado}!</h1>
+                    <h3 className="text-black">Victorias: {victorias}</h3>
                 </div>
                 <div className="modalTermino-buttonarea">
                     <Link to={"/"} className="boton-link">

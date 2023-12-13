@@ -21,7 +21,7 @@ const HeaderNavigation = () => {
 
     return (
         <>
-            <div className={"headerContainer"}>
+            <div className="headerContainer">
                 <div>
                     <h3 onClick={handleNavigate} className="headerLink">
                         Inicio

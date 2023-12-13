@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 import {Link} from "react-router-dom";
 import './styles/HomePage.css';
-import {getVictorias} from "../../game/Victorias.js";
+import {getVictorias, resetVictorias} from "../../game/Victorias.js";
 
 const HomePage = () => {
     const [victorias, setVictorias] = useState(getVictorias());
@@ -9,6 +9,11 @@ const HomePage = () => {
     useEffect(() => {
         setVictorias(getVictorias());
     }, []);
+
+    const handleReiniciarVictorias = () => {
+        resetVictorias();
+        setVictorias(getVictorias());
+    };
 
     return (
         <div className="pagina-principal-container">
@@ -19,6 +24,11 @@ const HomePage = () => {
             <Link to="/vs-jugador" className="boton-link">
                 <button className="boton">Jugar vs Player</button>
             </Link>
+            <div className="boton-link">
+                <button className="boton" onClick={handleReiniciarVictorias}>
+                    Reiniciar Victorias
+                </button>
+            </div>
             <h3 className="text-black">Victorias: {victorias}</h3>
         </div>
     );

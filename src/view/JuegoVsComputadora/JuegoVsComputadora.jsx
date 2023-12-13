@@ -2,7 +2,6 @@ import React, {useEffect, useMemo, useState} from 'react';
 import HeaderNavigation from '../../components/HeaderNavigation.jsx';
 import './styles/JuegoVsComputadora.css';
 import {Juego} from '../../game/Juego.js';
-import {useNavigate} from 'react-router-dom';
 import {incrementarVictorias} from '../../game/Victorias.js';
 import ToastUtil from '../../utils/ToastUtil.js';
 import ImagenBarco from '../../components/ImagenBarco.jsx';
@@ -22,8 +21,6 @@ import OrientacionSelector from "../../components/OrientacionSelector.jsx";
 
 const JuegoVsComputadora = () => {
     const juego = useMemo(() => new Juego(), []);
-
-    const navigate = useNavigate();
 
     const [tableroJugador, setTableroJugador] = useState(juego.jugador1.tablero);
     const [tableroComputadora, setTableroComputadora] = useState(
@@ -110,11 +107,9 @@ const JuegoVsComputadora = () => {
             setTableroJugador([...juego.jugador1.tablero]);
             setTableroComputadora(juego.jugador2.tablero);
             if (juego.jugador2.perdio()) {
-                ToastUtil.toastSuccess('Ganaste');
                 incrementarVictorias();
                 setModalTermino({showModal: true, estado: 'Ganaste'});
             } else if (juego.jugador1.perdio()) {
-                ToastUtil.toastError('Perdiste');
                 setModalTermino({showModal: true, estado: 'Perdiste'});
             }
         }
@@ -132,13 +127,9 @@ const JuegoVsComputadora = () => {
             ToastUtil.toastError(`El ${tipoBarco.toLowerCase()} ya ha sido colocado`);
             return;
         }
+        ToastUtil.toastSuccess(`Se selecciono ${tipoBarco.toLowerCase()}`);
 
         setBarcoSeleccionado(barco);
-    };
-
-    const closeModal = () => {
-        setModalIsOpen(false);
-        navigate('/');
     };
 
     return (
@@ -229,7 +220,7 @@ const JuegoVsComputadora = () => {
                     </div>
                 </div>
                 {modalTermino.showModal && (
-                    <ModalTermino onClose={closeModal} estado={modalTermino.estado}/>
+                    <ModalTermino estado={modalTermino.estado}/>
                 )}
             </div>
         </>
